@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pharmacy.WebApi", "Pharmacy.WebApi\Pharmacy.WebApi.csproj", "{D9C353A3-871C-4A0D-89EF-F4BC2C5B5A4D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9C353A3-871C-4A0D-89EF-F4BC2C5B5A4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9C353A3-871C-4A0D-89EF-F4BC2C5B5A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9C353A3-871C-4A0D-89EF-F4BC2C5B5A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9C353A3-871C-4A0D-89EF-F4BC2C5B5A4D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {322B339F-B7D8-4E83-96DC-B8A4BAA2AE4B}
+	EndGlobalSection
+EndGlobal
