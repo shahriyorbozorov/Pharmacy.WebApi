@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Pharmacy.WebApi.Migrations
 {
-    public partial class M2334 : Migration
+    public partial class M1223 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

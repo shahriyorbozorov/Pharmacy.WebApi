@@ -12,8 +12,8 @@ using Pharmacy.WebApi.DbContexts;
 namespace Pharmacy.WebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221007171053_M2334")]
-    partial class M2334
+    [Migration("20221008150511_M1223")]
+    partial class M1223
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

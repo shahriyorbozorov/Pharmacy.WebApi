@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Pharmacy.WebApi.Common.Middlewares;
 using Pharmacy.WebApi.DbContexts;
+using Pharmacy.WebApi.Helpers;
 using Pharmacy.WebApi.Interfaces;
 using Pharmacy.WebApi.IRepositories;
 using Pharmacy.WebApi.Mappers;
@@ -32,6 +33,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 // ----> Services
 builder.Services.AddScoped<IDrugService, DrugService>();
 builder.Services.AddAutoMapper(expression => expression.AddProfile<MapperProfile>());
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
 // ---> Middleware
@@ -43,6 +45,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
