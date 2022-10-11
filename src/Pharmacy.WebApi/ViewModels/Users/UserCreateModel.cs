@@ -27,7 +27,7 @@ namespace Pharmacy.WebApi.ViewModels.Users
         [DataType(DataType.Upload)]
         [MaxFileSize(3)]
         [AllowedFileExtension(new string[] { ".jpg", ".png", ".ico" })]
-        public string Image { get; set; } = string.Empty;
+        public IFormFile Image { get; set; } = null!;
 
 
         [Required(ErrorMessage = "Email is required")]

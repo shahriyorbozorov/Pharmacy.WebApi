@@ -16,7 +16,6 @@ namespace Pharmacy.WebApi.Services
     public class DrugService : IDrugService
     {
         private readonly IDrugRepository _drugRepository;
-
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
 
