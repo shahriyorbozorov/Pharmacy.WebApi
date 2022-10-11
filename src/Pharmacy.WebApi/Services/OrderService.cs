@@ -63,9 +63,14 @@ namespace Pharmacy.WebApi.Services
             return orderViews;
         }
 
-        public Task<OrderViewModel?> GetAsync(Expression<Func<Order, bool>> expression)
+        public async Task<OrderViewModel?> GetAsync(Expression<Func<Order, bool>> expression)
         {
-            throw new NotImplementedException();
+            var order = await _orderRepository.GetAsync(expression);
+            if (order is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Not Found Drug !");
+            var orderView = _mapper.Map<OrderViewModel>(order);
+
+            return orderView;
         }
 
         public Task<bool> UpdateAsync(long id, OrderCreateModel orderCreate)
