@@ -7,8 +7,6 @@ namespace Pharmacy.WebApi.Interfaces
 {
     public interface IUserService
     {
-        Task<UserViewModel> CreateAsync(UserCreateModel userCreate);
-
         Task<bool> UpdateAsync(long id, UserCreateModel userCreate);
 
         Task<bool> DeleteAsync(Expression<Func<User, bool>> expression);
