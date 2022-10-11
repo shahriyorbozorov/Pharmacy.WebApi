@@ -14,6 +14,6 @@ namespace Pharmacy.WebApi.Interfaces
         Task<UserViewModel?> GetAsync(Expression<Func<User, bool>> expression);
 
         Task<IEnumerable<UserViewModel>> GetAllAsync(Expression<Func<User, bool>>? expression = null,
-            PaginationParams? parameters = null);
+            PaginationParams? @params = null);
     }
 }
