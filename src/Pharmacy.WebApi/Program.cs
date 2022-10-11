@@ -8,6 +8,7 @@ using Pharmacy.WebApi.IRepositories;
 using Pharmacy.WebApi.Mappers;
 using Pharmacy.WebApi.Repositories;
 using Pharmacy.WebApi.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 // ---->  Serilog
+builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
+
+builder.Services.AddMemoryCache();
 
 // ----> Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
