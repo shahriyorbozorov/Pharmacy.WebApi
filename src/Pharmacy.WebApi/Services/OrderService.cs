@@ -42,7 +42,7 @@ namespace Pharmacy.WebApi.Services
             var orders = _orderRepository.GetAll(expression);
 
             if (!orders.Any())
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Not Found Drud!");
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Not Found order!");
             _orderRepository.DeleteRange(orders);
             await _dbContext.SaveChangesAsync();
 
@@ -67,15 +67,29 @@ namespace Pharmacy.WebApi.Services
         {
             var order = await _orderRepository.GetAsync(expression);
             if (order is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Not Found Drug !");
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Not Found Order !");
             var orderView = _mapper.Map<OrderViewModel>(order);
 
             return orderView;
         }
 
-        public Task<bool> UpdateAsync(long id, OrderCreateModel orderCreate)
+        public async Task<bool> UpdateAsync(long id, OrderCreateModel orderCreate)
         {
-            throw new NotImplementedException();
+            var order = await _orderRepository.GetAsync(d => d.Id == id);
+
+            if (order is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Not Found order!");
+            var orderMap = _mapper.Map<Order>(orderCreate);
+
+            orderMap.Id = order.Id;
+            orderMap.UpdateDate = DateTime.UtcNow;
+            orderMap.CreateDate = order.CreateDate;
+            orderMap.PaymentType = order.PaymentType;
+
+            await _orderRepository.UpdateAsync(orderMap);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }
