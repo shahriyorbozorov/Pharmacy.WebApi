@@ -18,8 +18,8 @@ namespace Pharmacy.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromForm] OrderCreateModel createModel)
             => Ok(await _service.CreateAsync(createModel));
-        
-        
+
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] OrderCreateModel orderCreate)
             => Ok(await _service.UpdateAsync(id, orderCreate));
@@ -34,7 +34,7 @@ namespace Pharmacy.WebApi.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PaginationParams @params)
-            => Ok(await _service.GetAllAsync(null,@params));
+            => Ok(await _service.GetAllAsync(null, @params));
 
 
 

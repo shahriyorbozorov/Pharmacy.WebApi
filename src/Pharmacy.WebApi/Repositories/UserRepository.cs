@@ -12,7 +12,7 @@ namespace Pharmacy.WebApi.Repositories
         {
             _context = appDbContext;
         }
-       
+
         public async Task DeleteAsync(long id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);

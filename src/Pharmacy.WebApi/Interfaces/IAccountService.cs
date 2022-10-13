@@ -1,5 +1,4 @@
-﻿using Pharmacy.WebApi.ViewModels.Emails;
-using Pharmacy.WebApi.ViewModels.Users;
+﻿using Pharmacy.WebApi.ViewModels.Users;
 
 namespace Pharmacy.WebApi.Interfaces
 

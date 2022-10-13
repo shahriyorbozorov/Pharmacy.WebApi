@@ -3,12 +3,9 @@ using Pharmacy.WebApi.Common.Extensions;
 using Pharmacy.WebApi.Common.Middlewares;
 using Pharmacy.WebApi.DbContexts;
 using Pharmacy.WebApi.Helpers;
-using Pharmacy.WebApi.Interfaces;
-using Pharmacy.WebApi.Interfaces.Managers;
 using Pharmacy.WebApi.IRepositories;
 using Pharmacy.WebApi.Mappers;
 using Pharmacy.WebApi.Repositories;
-using Pharmacy.WebApi.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +27,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 
-builder.Services.AddMemoryCache();
 
 // ----> Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -51,17 +47,20 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // ---> Middleware
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
-app.UseAuthentication();
-app.UseAuthorization();
+if (app.Services.GetService<IHttpContextAccessor>() != null)
+    HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
+
+app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlerMiddlewar>(); // nomini nomlashda AspNetning ichidagi middleware bilan bir xil bo'lmasligi kerak
 app.UseStaticFiles();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

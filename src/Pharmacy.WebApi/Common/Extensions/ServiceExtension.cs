@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Pharmacy.WebApi.Interfaces.Managers;
 using Pharmacy.WebApi.Interfaces;
+using Pharmacy.WebApi.Interfaces.Managers;
 using Pharmacy.WebApi.Services;
 using System.Text;
 

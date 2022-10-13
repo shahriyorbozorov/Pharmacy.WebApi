@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Pharmacy.WebApi.Common.Exceptions;
 using Pharmacy.WebApi.Common.Utils;
 using Pharmacy.WebApi.Interfaces;
 using Pharmacy.WebApi.ViewModels.Drugs;
-using System.Net;
 
 namespace Pharmacy.WebApi.Controllers
 {

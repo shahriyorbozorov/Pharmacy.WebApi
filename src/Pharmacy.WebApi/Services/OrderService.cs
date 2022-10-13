@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pharmacy.WebApi.Common.Exceptions;
 using Pharmacy.WebApi.Common.Extensions;
 using Pharmacy.WebApi.Common.Utils;
@@ -7,8 +6,6 @@ using Pharmacy.WebApi.DbContexts;
 using Pharmacy.WebApi.Interfaces;
 using Pharmacy.WebApi.IRepositories;
 using Pharmacy.WebApi.Models;
-using Pharmacy.WebApi.Repositories;
-using Pharmacy.WebApi.ViewModels.Drugs;
 using Pharmacy.WebApi.ViewModels.Orders;
 using System.Linq.Expressions;
 using System.Net;
@@ -51,7 +48,7 @@ namespace Pharmacy.WebApi.Services
             return true;
         }
 
-        public async Task<IEnumerable<OrderViewModel>> GetAllAsync(Expression<Func<Order, bool>>? expression = null, 
+        public async Task<IEnumerable<OrderViewModel>> GetAllAsync(Expression<Func<Order, bool>>? expression = null,
             PaginationParams? @params = null)
         {
             var orders = _orderRepository.GetAll(expression).ToPagedAsEnumerable(@params);

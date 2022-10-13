@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MailKit.Search;
 using Pharmacy.WebApi.Common.Exceptions;
 using Pharmacy.WebApi.Common.Extensions;
 using Pharmacy.WebApi.Common.Security;
@@ -7,13 +6,10 @@ using Pharmacy.WebApi.Common.Utils;
 using Pharmacy.WebApi.DbContexts;
 using Pharmacy.WebApi.Interfaces;
 using Pharmacy.WebApi.IRepositories;
-using Pharmacy.WebApi.Models;
 using Pharmacy.WebApi.Repositories;
-using Pharmacy.WebApi.ViewModels.Orders;
 using Pharmacy.WebApi.ViewModels.Users;
 using System.Linq.Expressions;
 using System.Net;
-using XAct.Users;
 
 namespace Pharmacy.WebApi.Services
 {
@@ -45,7 +41,7 @@ namespace Pharmacy.WebApi.Services
             return true;
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllAsync(Expression<Func<Models.User, bool>>? expression = null, 
+        public async Task<IEnumerable<UserViewModel>> GetAllAsync(Expression<Func<Models.User, bool>>? expression = null,
             PaginationParams? @params = null)
         {
             var users = _userRepository.GetAll(expression).ToPagedAsEnumerable(@params);
@@ -70,6 +66,19 @@ namespace Pharmacy.WebApi.Services
             return userView;
         }
 
+        public async Task<bool> ImageUpdate(long id, UserImageUpdateViewModel model)
+        {
+            var user = await _userRepository.GetAsync(o => o.Id == id);
+
+            if (user is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
+
+            if (model.Image is not null)
+                user.ImagePath = await _fileService.SaveImageAsync(model.Image);
+
+            return true;
+        }
+
         public async Task<bool> UpdateAsync(long id, UserCreateModel userCreate)
         {
 
@@ -82,7 +91,7 @@ namespace Pharmacy.WebApi.Services
             var res = PasswordHasher.Hash(userCreate.Password);
             var hash = res.Hash;
             var salt = res.Salt;
-           
+
             var userMap = _mapper.Map<Models.User>(userCreate);
 
             userMap.Id = entity.Id;

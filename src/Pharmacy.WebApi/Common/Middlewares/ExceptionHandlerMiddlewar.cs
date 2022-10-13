@@ -3,10 +3,10 @@ using Pharmacy.WebApi.Common.Exceptions;
 
 namespace Pharmacy.WebApi.Common.Middlewares
 {
-    public class ExceptionHandlerMiddleware
+    public class ExceptionHandlerMiddlewar
     {
         private readonly RequestDelegate _next;
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+        public ExceptionHandlerMiddlewar(RequestDelegate next)
         {
             _next = next;
         }

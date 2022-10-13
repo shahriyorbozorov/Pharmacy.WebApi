@@ -15,5 +15,6 @@ namespace Pharmacy.WebApi.Interfaces
 
         Task<IEnumerable<UserViewModel>> GetAllAsync(Expression<Func<User, bool>>? expression = null,
             PaginationParams? @params = null);
+        Task<bool> ImageUpdate(long id, UserImageUpdateViewModel model);
     }
 }

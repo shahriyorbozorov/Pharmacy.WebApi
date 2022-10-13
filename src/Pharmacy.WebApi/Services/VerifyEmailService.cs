@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Pharmacy.WebApi.Common.Exceptions;
+using Pharmacy.WebApi.Common.Security;
 using Pharmacy.WebApi.DbContexts;
 using Pharmacy.WebApi.Interfaces;
 using Pharmacy.WebApi.IRepositories;
@@ -65,9 +66,24 @@ namespace Pharmacy.WebApi.Services
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is expired");
         }
 
-        public Task<bool> VerifyPasswordAsync(UserResetPasswordViewModel model)
+        public async Task<bool> VerifyPasswordAsync(UserResetPasswordViewModel password)
         {
-            throw new NotImplementedException();
+            var user = await _repository.GetAsync(p => p.Email == password.Email);
+
+            if (user is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, message: "user not found!");
+
+            if (user.EmailConfirmed is false)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "email did not verified!");
+
+            var changedPassword = PasswordHasher.ChangePassword(password.Password, user.Salt);
+
+            user.PasswordHash = changedPassword;
+
+            await _repository.UpdateAsync(user);
+            await _dbContext.SaveChangesAsync();
+
+            throw new StatusCodeException(HttpStatusCode.OK, message: "true");
         }
     }
 }

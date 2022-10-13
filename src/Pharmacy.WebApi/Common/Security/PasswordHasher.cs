@@ -1,7 +1,4 @@
-﻿using Org.BouncyCastle.Crypto.Generators;
-using System.Text;
-
-namespace Pharmacy.WebApi.Common.Security
+﻿namespace Pharmacy.WebApi.Common.Security
 {
     public class PasswordHasher
     {

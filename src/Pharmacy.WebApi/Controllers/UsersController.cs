@@ -23,6 +23,12 @@ namespace Pharmacy.WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateIamgeAsync(long id, [FromBody] UserImageUpdateViewModel userCreateViewModel)
+        {
+            return Ok(await _userService.ImageUpdate(id, userCreateViewModel));
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(long id)
         {

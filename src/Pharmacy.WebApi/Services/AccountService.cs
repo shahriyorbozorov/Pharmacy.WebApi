@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Pharmacy.WebApi.Common.Exceptions;
 using Pharmacy.WebApi.Common.Security;
@@ -9,10 +7,8 @@ using Pharmacy.WebApi.Interfaces;
 using Pharmacy.WebApi.Interfaces.Managers;
 using Pharmacy.WebApi.IRepositories;
 using Pharmacy.WebApi.Models;
-using Pharmacy.WebApi.ViewModels.Emails;
 using Pharmacy.WebApi.ViewModels.Users;
 using System.Net;
-using System.Net.Mail;
 
 namespace Pharmacy.WebApi.Services
 {
@@ -90,10 +86,10 @@ namespace Pharmacy.WebApi.Services
             await _userRepository.CreateAsync(user);
             await _dbContext.SaveChangesAsync();
 
-            var code = GeneratedCode(); /*new Random().Next(1000, 9999).ToString();*/
+            var code = GeneratedCode();
             _cache.Set(userCreateModel.Email, code, TimeSpan.FromMinutes(10));
 
-            await _emailService.SendAsync(userCreateModel.Email, code);
+            //await _emailService.SendAsync(userCreateModel.Email, code);
             return true;
         }
 
