@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Pharmacy.WebApi.Common.Extensions;
 using Pharmacy.WebApi.Common.Middlewares;
 using Pharmacy.WebApi.DbContexts;
 using Pharmacy.WebApi.Helpers;
@@ -37,13 +38,11 @@ builder.Services.AddScoped<IDrugRepository, DrugRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 // ----> Services
-builder.Services.AddScoped<IDrugService, DrugService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAuthManager, AuthManager>();
-builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddServices();
+builder.Services.AddSwaggerAuthorization();
+builder.Services.AddJwtService(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddAutoMapper(expression => expression.AddProfile<MapperProfile>());
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -59,7 +58,6 @@ if (app.Environment.IsDevelopment())
 }
 
 HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
-app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();

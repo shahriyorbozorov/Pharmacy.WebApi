@@ -3,7 +3,7 @@ using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 using Pharmacy.WebApi.Interfaces;
-
+using Pharmacy.WebApi.ViewModels.Emails;
 
 namespace Pharmacy.WebApi.Services
 {
@@ -13,20 +13,22 @@ namespace Pharmacy.WebApi.Services
 
         public EmailService(IConfiguration configuration)
         {
-            this._config = configuration.GetSection("Email");
+            _config = configuration.GetSection("Email");
         }
-        public async Task SendAsync(string email, string message)
-        {
-            var mail = new MimeMessage();
-            mail.From.Add(MailboxAddress.Parse(_config["EmailName"]));
-            mail.To.Add(MailboxAddress.Parse(email));
-            mail.Subject = "Verification code.";
-            mail.Body = new TextPart(TextFormat.Html) { Text = message };
 
-            using var smtp = new SmtpClient();
+        public async Task SendAsync(EmailMessageViewModel emailMessage)
+        {
+            var email = new MimeMessage();
+
+            email.From.Add(MailboxAddress.Parse(_config["Email"]));
+            email.To.Add(MailboxAddress.Parse(emailMessage.To));
+            email.Subject = emailMessage.Subject;
+            email.Body = new TextPart(TextFormat.Html) { Text = emailMessage.Body.ToString() };
+
+            var smtp = new SmtpClient();
             await smtp.ConnectAsync(_config["Host"], 587, SecureSocketOptions.StartTls);
-            await smtp.AuthenticateAsync(_config["EmailName"], _config["Password"]);
-            await smtp.SendAsync(mail);
+            await smtp.AuthenticateAsync(_config["Email"], _config["Password"]);
+            await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);
         }
     }

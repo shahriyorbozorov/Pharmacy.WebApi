@@ -34,7 +34,9 @@ namespace Pharmacy.WebApi.Services
             var order = await _orderRepository.CreateAsync(entity);
             await _dbContext.SaveChangesAsync();
 
-            return _mapper.Map<OrderViewModel>(entity);
+            var orderView = _mapper.Map<OrderViewModel>(order);
+
+            return orderView;
         }
 
         public async Task<bool> DeleteAsync(Expression<Func<Order, bool>> expression)

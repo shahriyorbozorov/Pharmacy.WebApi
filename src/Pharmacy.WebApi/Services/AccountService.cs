@@ -20,13 +20,13 @@ namespace Pharmacy.WebApi.Services
     {
         private readonly IMapper _mapper;
         private readonly AppDbContext _dbContext;
-        private readonly IGenericRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IFileService _fileService;
         private readonly IEmailService _emailService;
         private readonly IAuthManager _authManager;
         private readonly IMemoryCache _cache;
 
-        public AccountService(IGenericRepository<User> repository,
+        public AccountService(IUserRepository repository,
             IFileService fileService,
             IAuthManager authManager,
             IEmailService emailService,
@@ -42,22 +42,22 @@ namespace Pharmacy.WebApi.Services
             _mapper = mapper;
             _dbContext = dbContext;
         }
-        public async Task<string> EmailVerify(EmailAddress emailAddress)
-        {
-            var user = await _userRepository.GetAsync(a => a.Email == emailAddress.Email);
+        //public async Task<string> EmailVerify(EmailAddress emailAddress)
+        //{
+        //    var user = await _userRepository.GetAsync(a => a.Email == emailAddress.Email);
 
-            if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Email not valid!");
+        //    if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Email not valid!");
 
-            if (_cache.TryGetValue(emailAddress.Email, out var exceptedCode))
-            {
-                if (exceptedCode.Equals(emailAddress.Code))
-                    return _authManager.GeneratedToken(user);
+        //    if (_cache.TryGetValue(emailAddress.Email, out var exceptedCode))
+        //    {
+        //        if (exceptedCode.Equals(emailAddress.Code))
+        //            return _authManager.GeneratedToken(user);
 
-                throw new StatusCodeException(HttpStatusCode.BadRequest, "Code is not valid.");
-            }
-            else
-                throw new Exception("Code is expired.");
-        }
+        //        throw new StatusCodeException(HttpStatusCode.BadRequest, "Code is not valid.");
+        //    }
+        //    else
+        //        throw new Exception("Code is expired.");
+        //}
 
         public async Task<string?> LoginAsync(UserLoginViewModel userLoginViewModel)
         {
@@ -95,6 +95,26 @@ namespace Pharmacy.WebApi.Services
 
             await _emailService.SendAsync(userCreateModel.Email, code);
             return true;
+        }
+
+        public async Task<bool> VerifyPasswordAsync(UserResetPasswordViewModel password)
+        {
+            var user = await _userRepository.GetAsync(p => p.Email == password.Email);
+
+            if (user is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, message: "user not found!");
+
+            if (user.EmailConfirmed is false)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "email did not verified!");
+
+            var changedPassword = PasswordHasher.ChangePassword(password.Password, user.Salt);
+
+            user.PasswordHash = changedPassword;
+
+            await _userRepository.UpdateAsync(user);
+            await _dbContext.SaveChangesAsync();
+
+            throw new StatusCodeException(HttpStatusCode.OK, message: "true");
         }
 
         private string GeneratedCode()

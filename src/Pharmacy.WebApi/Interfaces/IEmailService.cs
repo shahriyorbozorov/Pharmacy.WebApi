@@ -1,7 +1,9 @@
-﻿namespace Pharmacy.WebApi.Interfaces
+﻿using Pharmacy.WebApi.ViewModels.Emails;
+
+namespace Pharmacy.WebApi.Interfaces
 {
     public interface IEmailService
     {
-        Task SendAsync(string email, string message);
+        public Task SendAsync(EmailMessageViewModel emailMessage);
     }
 }

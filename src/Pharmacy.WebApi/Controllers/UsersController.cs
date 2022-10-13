@@ -1,35 +1,48 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pharmacy.WebApi.Common.Utils;
+using Pharmacy.WebApi.Interfaces;
 using Pharmacy.WebApi.ViewModels.Users;
 
 namespace Pharmacy.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUserService _userService;
+
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] UserCreateModel userCreate)
         {
-            return Ok();
+            var result = await _userService.UpdateAsync(id, userCreate);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(long id)
         {
-            return Ok();
+            var res = await _userService.DeleteAsync(p => p.Id == id);
+            return Ok(res);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(long id)
         {
-            return Ok();
+            var res = await _userService.GetAsync(p => p.Id == id);
+            return Ok(res);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationParams @params)
+        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
         {
-            return Ok();
+            var res = await _userService.GetAllAsync(null, @params);
+
+            return Ok(res);
         }
 
     }

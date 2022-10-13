@@ -8,6 +8,8 @@ namespace Pharmacy.WebApi.Interfaces
     {
         Task<bool> RegistrAsync(UserCreateModel userCreateModel);
         Task<string?> LoginAsync(UserLoginViewModel userLoginViewModel);
-        Task<string> EmailVerify(EmailAddress emailAddress);
+        Task<bool> VerifyPasswordAsync(UserResetPasswordViewModel password);
+
+        //Task<string> EmailVerify(EmailAddress emailAddress);
     }
 }

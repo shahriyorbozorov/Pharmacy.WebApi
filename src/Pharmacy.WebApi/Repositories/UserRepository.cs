@@ -10,12 +10,15 @@ namespace Pharmacy.WebApi.Repositories
         private readonly AppDbContext _context;
         public UserRepository(AppDbContext appDbContext) : base(appDbContext)
         {
+            _context = appDbContext;
         }
        
         public async Task DeleteAsync(long id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
+            if (user is null)
+                throw new Exception("not found");
             _context.Users.Remove(user);
         }
 
