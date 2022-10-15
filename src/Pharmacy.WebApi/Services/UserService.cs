@@ -50,7 +50,7 @@ namespace Pharmacy.WebApi.Services
             foreach (var user in users)
             {
                 var usr = _mapper.Map<UserViewModel>(user);
-                usr.ImageUrl = "https://localhost:7066/" + user.ImagePath;
+                usr.ImageUrl = "https://pharmacy-db-demo.herokuapp.com//" + user.ImagePath;
                 userViews.Add(usr);
             }
             return userViews;
@@ -61,8 +61,9 @@ namespace Pharmacy.WebApi.Services
             var user = await _userRepository.GetAsync(expression);
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Not Found User !");
-            var userView = _mapper.Map<UserViewModel>(user);
 
+            var userView = _mapper.Map<UserViewModel>(user);
+            userView.ImageUrl = "https://pharmacy-db-demo.herokuapp.com//" + user.ImagePath;
             return userView;
         }
 
