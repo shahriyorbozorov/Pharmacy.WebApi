@@ -55,7 +55,7 @@ namespace Pharmacy.WebApi.Common.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookStore.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pharmacy.Api", Version = "v1" });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

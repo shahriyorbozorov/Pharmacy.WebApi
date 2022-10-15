@@ -20,7 +20,7 @@ namespace Pharmacy.WebApi.Configurations
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = config["Jwt:Isuer"],
                         ValidAudience = config["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:SecretKey"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]))
                     };
                 });
         }

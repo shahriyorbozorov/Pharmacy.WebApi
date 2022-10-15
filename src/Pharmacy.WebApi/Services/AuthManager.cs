@@ -10,7 +10,6 @@ namespace Pharmacy.WebApi.Services
     public class AuthManager : IAuthManager
     {
         private readonly IConfigurationSection _config;
-
         public AuthManager(IConfiguration configuration)
         {
             _config = configuration.GetSection("Jwt");
@@ -24,7 +23,7 @@ namespace Pharmacy.WebApi.Services
                 new Claim(ClaimTypes.Role, user.Role.ToString()),
             };
 
-            var secretKey = _config["SecretKey"];
+            var secretKey = _config["Key"];
             var issuer = _config["Issuer"];
             var audience = _config["Audience"];
             var expire = double.Parse(_config["Lifetime"]);

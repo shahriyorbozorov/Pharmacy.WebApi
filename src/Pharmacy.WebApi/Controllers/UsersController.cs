@@ -24,7 +24,7 @@ namespace Pharmacy.WebApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateIamgeAsync(long id, [FromBody] UserImageUpdateViewModel userCreateViewModel)
+        public async Task<IActionResult> UpdateIamgeAsync(long id, [FromForm] UserImageUpdateViewModel userCreateViewModel)
         {
             return Ok(await _userService.ImageUpdate(id, userCreateViewModel));
         }
