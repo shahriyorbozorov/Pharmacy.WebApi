@@ -7,7 +7,7 @@ namespace Pharmacy.WebApi.Interfaces
 {
     public interface IOrderService
     {
-        Task<OrderViewModel> CreateAsync(OrderCreateModel orderCreate);
+        Task<OrderViewModel> CreateAsync(long userId, OrderCreateModel orderCreate);
 
         Task<bool> UpdateAsync(long id, OrderCreateModel orderCreate);
 

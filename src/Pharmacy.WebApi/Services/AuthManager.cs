@@ -19,8 +19,9 @@ namespace Pharmacy.WebApi.Services
             var claims = new[]
             {
                 new Claim("Id", user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
                 new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(ClaimTypes.Email, user.Email)
             };
 
             var secretKey = _config["Key"];

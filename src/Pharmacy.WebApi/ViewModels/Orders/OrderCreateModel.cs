@@ -14,7 +14,6 @@ namespace Pharmacy.WebApi.ViewModels.Orders
         [Required]
         public PaymentType PaymentType { get; set; }
 
-        [Required]
         public int? CardNumber { get; set; }
     }
 }
