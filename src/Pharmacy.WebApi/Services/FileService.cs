@@ -11,16 +11,17 @@ namespace Pharmacy.WebApi.Services
 
         public FileService(IWebHostEnvironment webHostEnvironment)
         {
-            _basePath = webHostEnvironment.ContentRootPath;
+            _basePath = webHostEnvironment.WebRootPath;
         }
         public async Task<string> SaveImageAsync(IFormFile image)
         {
             string fileName = ImageHelper.MakeImageName(image.FileName);
             string partPath = Path.Combine(_folderName, fileName);
-            string path = Path.Combine(_basePath, "wwwroot", partPath);
+            string path = Path.Combine(_basePath, partPath);
 
             var stream = File.Create(path);
             await image.CopyToAsync(stream);
+            stream.Close();
 
             return partPath;
         }
