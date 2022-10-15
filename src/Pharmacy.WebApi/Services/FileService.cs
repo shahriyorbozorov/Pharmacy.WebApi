@@ -7,7 +7,7 @@ namespace Pharmacy.WebApi.Services
 
     {
         private readonly string _basePath = string.Empty;
-        private const string _folderName = "images";
+        private const string _folderName = "Images";
 
         public FileService(IWebHostEnvironment webHostEnvironment)
         {
