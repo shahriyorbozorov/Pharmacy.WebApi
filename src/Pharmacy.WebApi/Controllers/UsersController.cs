@@ -17,14 +17,14 @@ namespace Pharmacy.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(long id, [FromForm] UserCreateModel userCreate)
+        public async Task<IActionResult> UpdateAsync(long id, [FromBody] UserCreateModel userCreate)
         {
             var result = await _userService.UpdateAsync(id, userCreate);
             return Ok(result);
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateIamgeAsync(long id, [FromForm] UserImageUpdateViewModel userCreateViewModel)
+        public async Task<IActionResult> UpdateIamgeAsync(long id, [FromBody] UserImageUpdateViewModel userCreateViewModel)
         {
             return Ok(await _userService.ImageUpdate(id, userCreateViewModel));
         }

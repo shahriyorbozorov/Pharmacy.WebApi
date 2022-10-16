@@ -20,26 +20,26 @@ namespace Pharmacy.WebApi.Controllers
         }
 
         [HttpPost("registr"), AllowAnonymous]
-        public async Task<IActionResult> RegistrAsync([FromForm] UserCreateModel userCreateViewModel)
+        public async Task<IActionResult> RegistrAsync([FromBody] UserCreateModel userCreateViewModel)
             => Ok(await _accountService.RegistrAsync(userCreateViewModel));
 
         [HttpPost("login"), AllowAnonymous]
-        public async Task<IActionResult> LoginAsync([FromForm] UserLoginViewModel logInViewModel)
+        public async Task<IActionResult> LoginAsync([FromBody] UserLoginViewModel logInViewModel)
             => Ok(new { Token = (await _accountService.LoginAsync(logInViewModel)) });
 
         [HttpPost("verify-email"), AllowAnonymous]
-        public async Task<IActionResult> VerifyEmail([FromForm] EmailVerifyViewModel email)
+        public async Task<IActionResult> VerifyEmail([FromBody] EmailVerifyViewModel email)
             => Ok(await _verifyEmailService.VerifyEmail(email));
 
         [HttpPost("send-code-to-email"), AllowAnonymous]
-        public async Task<IActionResult> SendToEmail([FromForm] SendCodeToEmailViewModel email)
+        public async Task<IActionResult> SendToEmail([FromBody] SendCodeToEmailViewModel email)
         {
             await _verifyEmailService.SendCodeAsync(email);
             return Ok();
         }
 
         [HttpPost("reset-password"), AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromForm] UserResetPasswordViewModel forgotPassword)
+        public async Task<IActionResult> ForgotPassword([FromBody] UserResetPasswordViewModel forgotPassword)
         {
             return Ok(await _accountService.VerifyPasswordAsync(forgotPassword));
         }

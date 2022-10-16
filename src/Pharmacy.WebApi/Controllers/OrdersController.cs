@@ -16,7 +16,7 @@ namespace Pharmacy.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromForm] OrderCreateModel createModel)
+        public async Task<IActionResult> CreateAsync([FromBody] OrderCreateModel createModel)
         {
             var userId = long.Parse(HttpContext.User.FindFirst("Id").Value);
 
@@ -26,7 +26,7 @@ namespace Pharmacy.WebApi.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(long id, [FromForm] OrderCreateModel orderCreate)
+        public async Task<IActionResult> UpdateAsync(long id, [FromBody] OrderCreateModel orderCreate)
             => Ok(await _service.UpdateAsync(id, orderCreate));
 
         [HttpDelete("{id}")]
