@@ -16,7 +16,7 @@ namespace Pharmacy.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromForm] DrugCreateModel createModel)
+        public async Task<IActionResult> CreateAsync([FromBody] DrugCreateModel createModel)
             => Ok(await _service.CreateAsync(createModel));
 
 
@@ -33,7 +33,7 @@ namespace Pharmacy.WebApi.Controllers
             => Ok(await _service.DeleteAsync(drug => drug.Id == id));
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(long id, [FromForm] DrugCreateModel createModel)
+        public async Task<IActionResult> UpdateAsync(long id, [FromBody] DrugCreateModel createModel)
             => Ok(await _service.UpdateAsync(id, createModel));
 
 
