@@ -11,6 +11,7 @@ using Pharmacy.WebApi.Repositories;
 using Pharmacy.WebApi.ViewModels.Orders;
 using System.Linq.Expressions;
 using System.Net;
+using System.Security.Cryptography;
 
 namespace Pharmacy.WebApi.Services
 {
@@ -61,13 +62,20 @@ namespace Pharmacy.WebApi.Services
         public async Task<IEnumerable<OrderViewModel>> GetAllAsync(Expression<Func<Order, bool>>? expression = null,
             PaginationParams? @params = null)
         {
-            var orders = _orderRepository.GetAll(expression).ToPagedAsEnumerable(@params);
+            var orders = _orderRepository.GetAll(expression).Include(p => p.User).Include(p => p.Drug).ToPagedAsEnumerable(@params);
             var orderViews = new List<OrderViewModel>();
 
             foreach (var order in orders)
             {
-                var ord = _mapper.Map<OrderViewModel>(order);
-                orderViews.Add(ord);
+                /*var ord = _mapper.Map<OrderViewModel>(order);
+                ord.DrugName = (await _drugRepository.GetAsync(p => p.Id == order.DrugId))!.Name;
+                var user = (await _userRepository.GetAsync(p => p.Id == order.UserId))!;
+                ord.UserFullName = user.FirstName + " " + user.LastName;
+
+                orderViews.Add(ord);*/
+
+                var item = _mapper.Map<OrderViewModel>(order);
+                orderViews.Add(item);
             }
             return orderViews;
         }
@@ -78,6 +86,10 @@ namespace Pharmacy.WebApi.Services
             if (order is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Not Found Order !");
             var orderView = _mapper.Map<OrderViewModel>(order);
+
+            orderView.DrugName = (await _drugRepository.GetAsync(p => p.Id == order.DrugId))!.Name;
+            var user = (await _userRepository.GetAsync(p => p.Id == order.UserId))!;
+            orderView.UserFullName = user.FirstName + " " + user.LastName;
 
             return orderView;
         }

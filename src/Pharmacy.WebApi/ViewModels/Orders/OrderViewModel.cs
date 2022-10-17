@@ -4,6 +4,7 @@ namespace Pharmacy.WebApi.ViewModels.Orders
 {
     public class OrderViewModel
     {
+        public long Id { get; set; }
         public string DrugName { get; set; } = String.Empty;
         public string UserFullName { get; set; } = String.Empty;
         public double Quantity { get; set; }
