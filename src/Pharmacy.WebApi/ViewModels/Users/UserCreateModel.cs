@@ -23,10 +23,10 @@ namespace Pharmacy.WebApi.ViewModels.Users
         public string LastName { get; set; } = string.Empty;
 
 
-        //[Required(ErrorMessage = "Image is required")]
-        //[DataType(DataType.Upload)]
-       // [MaxFileSize(3)]
-        //[AllowedFileExtension(new string[] { ".jpg", ".png", ".ico" })]
+        [Required(ErrorMessage = "Image is required")]
+        [DataType(DataType.Upload)]
+        [MaxFileSize(3)]
+        [AllowedFileExtension(new string[] { ".jpg", ".png", ".ico" })]
         public IFormFile Image { get; set; } = null!;
 
 
