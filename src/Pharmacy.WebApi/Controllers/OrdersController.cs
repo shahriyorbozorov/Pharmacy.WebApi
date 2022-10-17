@@ -16,14 +16,11 @@ namespace Pharmacy.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] OrderCreateModel createModel)
+        public async Task<IActionResult> CreateAsync([FromForm] OrderCreateModel createModel)
         {
-            var userId = long.Parse(HttpContext.User.FindFirst("Id").Value);
-
+            var userId = long.Parse(HttpContext.User.FindFirst("Id")?.Value ?? "0");
             return Ok(await _service.CreateAsync(userId, createModel));
-
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(long id, [FromBody] OrderCreateModel orderCreate)
