@@ -19,8 +19,13 @@ namespace Pharmacy.WebApi.Mappers
             CreateMap<IQueryable<Drug>, List<DrugViewModel>>().ReverseMap();
 
             CreateMap<Order, OrderCreateModel>().ReverseMap();
-            CreateMap<Order, OrderViewModel>().ReverseMap();
+            //CreateMap<Order, OrderViewModel>().ReverseMap();
             CreateMap<IQueryable<Order>, List<OrderViewModel>>().ReverseMap();
+            CreateMap<Order, OrderViewModel>()
+                .ForMember(dto => dto.UserFullName,
+                    expression => expression.MapFrom(entity => entity.User.FirstName + " " + entity.User.LastName))
+                .ForMember(dto => dto.DrugName,
+                    expression => expression.MapFrom(entity => entity.Drug.Name));
         }
     }
 }
