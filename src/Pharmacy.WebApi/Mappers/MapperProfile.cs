@@ -25,7 +25,9 @@ namespace Pharmacy.WebApi.Mappers
                 .ForMember(dto => dto.UserFullName,
                     expression => expression.MapFrom(entity => entity.User.FirstName + " " + entity.User.LastName))
                 .ForMember(dto => dto.DrugName,
-                    expression => expression.MapFrom(entity => entity.Drug.Name));
+                    expression => expression.MapFrom(entity => entity.Drug.Name))
+                .ForMember(dto => dto.Date,
+                    expression => expression.MapFrom(entity => entity.CreateDate));
         }
     }
 }
