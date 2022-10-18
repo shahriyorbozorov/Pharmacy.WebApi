@@ -34,7 +34,7 @@ namespace Pharmacy.WebApi.Services
 
             if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
-            await _fileService.DeleteImageAsync(user.ImagePath);
+            //await _fileService.DeleteImageAsync(user.ImagePath);
             await _userRepository.DeleteAsync(user.Id);
             await _dbContext.SaveChangesAsync();
 

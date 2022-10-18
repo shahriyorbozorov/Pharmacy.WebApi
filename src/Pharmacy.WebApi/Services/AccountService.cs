@@ -9,6 +9,7 @@ using Pharmacy.WebApi.IRepositories;
 using Pharmacy.WebApi.Models;
 using Pharmacy.WebApi.ViewModels.Users;
 using System.Net;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Pharmacy.WebApi.Services
 {
@@ -72,13 +73,18 @@ namespace Pharmacy.WebApi.Services
 
         public async Task<bool> RegistrAsync(UserCreateModel userCreateModel)
         {
-            User user = _mapper.Map<User>(userCreateModel);
             var checkUser = await _userRepository.GetAsync(user => user.Email == userCreateModel.Email);
 
             if (checkUser is not null)
                 throw new StatusCodeException(HttpStatusCode.Conflict, "This email already exists");
 
-            user.ImagePath = await _fileService.SaveImageAsync(userCreateModel.Image);
+            User user = _mapper.Map<User>(userCreateModel);
+
+            if (userCreateModel.Image is null)
+                user.ImagePath = $"{_fileService.ImageFolderName}/defaultAvatar.png";
+            else
+                user.ImagePath = await _fileService.SaveImageAsync(userCreateModel.Image);
+
             var hasherResult = PasswordHasher.Hash(userCreateModel.Password);
             user.PasswordHash = hasherResult.Hash;
             user.Salt = hasherResult.Salt;

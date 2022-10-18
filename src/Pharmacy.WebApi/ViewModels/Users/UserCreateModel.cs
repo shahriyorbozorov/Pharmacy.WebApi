@@ -23,11 +23,15 @@ namespace Pharmacy.WebApi.ViewModels.Users
         public string LastName { get; set; } = string.Empty;
 
 
-        [Required(ErrorMessage = "Image is required")]
+        //[Required(ErrorMessage = "Image is required")]
+        //[DataType(DataType.Upload)]
+        //[MaxFileSize(3)]
+        //[AllowedFileExtension(new string[] { ".jpg", ".png", ".ico" })]
+
         [DataType(DataType.Upload)]
-        [MaxFileSize(3)]
-        [AllowedFileExtension(new string[] { ".jpg", ".png", ".ico" })]
-        public IFormFile Image { get; set; } = null!;
+        [MaxFileSize(3, true)]
+        [AllowedFileExtension(new[] { ".jpg", ".png", "jpeg" }, true)]
+        public IFormFile? Image { get; set; }
 
 
         [Required(ErrorMessage = "Email is required")]
@@ -44,7 +48,7 @@ namespace Pharmacy.WebApi.ViewModels.Users
             ErrorMessage = "Please enter valid phone number")]
         public string PhoneNumber { get; set; } = string.Empty;
 
-        [Required]
+        //[Required]
         public Role Role { get; set; }
     }
 }

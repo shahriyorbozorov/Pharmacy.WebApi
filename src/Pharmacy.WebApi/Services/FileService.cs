@@ -26,6 +26,8 @@ namespace Pharmacy.WebApi.Services
             return partPath;
         }
 
+        string IFileService.ImageFolderName => _folderName;
+
         public Task<bool> DeleteImageAsync(string relativeImagePath)
         {
             string absoluteFilePath = Path.Combine(_basePath, relativeImagePath);

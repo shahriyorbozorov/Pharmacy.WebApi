@@ -9,6 +9,6 @@ namespace Pharmacy.WebApi.Interfaces
         Task<string?> LoginAsync(UserLoginViewModel userLoginViewModel);
         Task<bool> VerifyPasswordAsync(UserResetPasswordViewModel password);
 
-        //Task<string> EmailVerify(EmailAddress emailAddress);
+        
     }
 }
